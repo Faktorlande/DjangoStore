@@ -3,13 +3,16 @@ from django.shortcuts import render
 
 def index(request: HttpRequest) -> HttpResponse: #request - экземпляр класса http.request который содержит в себе данные о запросе
     context = {
-        'title': 'Home page',
-        'content': 'This is the content of the page',
-        'list': ['first', 'second'],
-        'dict': {'key': 1},
-        'is_authenticated': False
+        'title': 'Home - Главная',
+        'content': 'Магазин мебели HOME',
     }
     return render(request, template_name='main/index.html', context=context)
 
 def about(request: HttpRequest) -> HttpResponse:
-    return HttpResponse('About page')
+    context = {
+        'title': 'About - О нас',
+        'content': 'Информация о магазине',
+        'about_text': """Магазин мебели HOME\n
+                         Это учебный проект. Работаем с шаблонами""",
+    }
+    return render(request, template_name='main/about.html', context=context)
