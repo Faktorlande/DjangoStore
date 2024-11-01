@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.db import models
 from django.template.defaulttags import verbatim
 
@@ -38,4 +39,19 @@ class Products(models.Model):
 
     def __str__(self):
         return f"{self.name} Количество - {self.quantity}"
+    
+    def display_id(self):
+        return f"{self.id: 06}"
+    
+    def sell_price(self):
+        if self.discount:
+            return round(self.price * (1 - Decimal(self.discount / 100)), 2)
+        return self.price
+    
+
+    
+    # def display_id(self):
+    #     len_str_id = len(str(self.id))
+    #     count_zero = 5 - len_str_id
+    #     return count_zero * "0" + str(self.id)
 
