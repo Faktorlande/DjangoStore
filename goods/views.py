@@ -1,12 +1,16 @@
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 
 from goods.models import Products
 
 
-def catalog(request) -> HttpResponse:
+def catalog(request, category_slug=False) -> HttpResponse:
 
-    goods = Products.objects.all()
+    if category_slug == "all":
+        goods = Products.objects.all()
+
+    else:
+        goods = get_object_or_404(Products.objects.filter(category__slug=category_slug))
 
     context = {
         "title": "Home - Каталог",
@@ -17,11 +21,11 @@ def catalog(request) -> HttpResponse:
 
 
 def product(request, product_slug) -> HttpResponse:
-    
+
     product = Products.objects.get(slug=product_slug)
 
     context = {
-        'product': product,
+        "product": product,
     }
 
     return render(request, template_name="goods/product.html", context=context)
